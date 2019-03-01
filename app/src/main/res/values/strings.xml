@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SE</string>
+    <string name="sql_commands"></string>
 </resources>
