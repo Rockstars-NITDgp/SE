@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-
+import com.example.android.se.Variables;
 
 public class AddNewEntity extends AppCompatActivity {
 
@@ -26,13 +27,14 @@ public class AddNewEntity extends AppCompatActivity {
                 final EditText entity_name = findViewById(R.id.AddNewEntityInput);
                 Editable entityname = entity_name.getText();
 
-                Bundle recv = getIntent().getExtras();
-                ArrayList<CharSequence> entities_list = recv.getCharSequenceArrayList("entities");
-                entities_list.add(entityname);
 
-                Bundle send = new Bundle();
-                send.putCharSequenceArrayList("entities", entities_list);
-                startActivity(new Intent(AddNewEntity.this, MainActivity.class).putExtras(send));
+                Intent receive = getIntent();
+                Variables values = (Variables)receive.getSerializableExtra("Values");
+                values.entities_list.add(entityname);
+
+                Intent send = new Intent(AddNewEntity.this, MainActivity.class);
+                send.putExtra("Values", (Serializable)values);
+                startActivity(send);
             }
         });
 

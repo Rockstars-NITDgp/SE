@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Dictionary;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
 
     final Button reloading = findViewById(R.id.reload);
     final Button attribute = findViewById(R.id.add_attributes);
@@ -17,16 +17,8 @@ public class MainActivity extends AppCompatActivity {
     final Button entity = findViewById(R.id.add_entity);
     final Button relations = findViewById(R.id.add_relations);
 
-    ArrayList<CharSequence> entities_list = new ArrayList<CharSequence>(0);
-    ArrayList<Integer> relations_list = new ArrayList<Integer>(0);
-    ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String> >(0);
-
-    Bundle mappings = new Bundle();
-
-    public void setMappings(Bundle mappings) {
-        this.mappings = mappings;
-        mappings.putCharSequenceArrayList("entities",entities_list);
-    }
+    Variables values = new Variables();
+    Intent receive = getIntent();
 
     public void generator(){
         //Code for preparing the SQL commands on the background
@@ -37,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        values = (Variables)receive.getSerializableExtra("Values");
+
 
 
         reloading.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Code for adding relations
-
+                Intent send = new Intent(MainActivity.this, AddNewRelation.class);
+                send.putExtra("Values", (Serializable) values);
+                startActivity(send);
             }
         });
 
@@ -58,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Code for adding attributes
-                startActivity(new Intent(MainActivity.this, AddNewEntity.class).putExtras(mappings));
+                Intent send = new Intent(MainActivity.this, AddNewEntity.class);
+                send.putExtra("Values", (Serializable) values);
+                startActivity(send);
             }
         });
 
@@ -66,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Add attributes to existing entities
-
+                Intent send = new Intent(MainActivity.this, AddNewAttribute.class);
+                send.putExtra("Values", (Serializable) values);
+                startActivity(send);
             }
         });
 
@@ -74,8 +75,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Remove or change name of attributes
-
+                Intent send = new Intent(MainActivity.this, TweakAttributes.class);
+                send.putExtra("Values", (Serializable) values);
+                startActivity(send);
             }
         });
     }
+}
+
+class Variables{
+    ArrayList<CharSequence> entities_list = new ArrayList<CharSequence>(0);
+    ArrayList<Integer> relations_list = new ArrayList<Integer>(0);
+    ArrayList<ArrayList<CharSequence>> attributes = new ArrayList<ArrayList<CharSequence>>(0);
 }

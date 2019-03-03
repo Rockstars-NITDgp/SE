@@ -6,12 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".AddNewRelation">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayoutManager>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:id="@+id/entity_recycler"
+            android:scrollbars="vertical"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/entity_display"/>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:id="@+id/attribute_display"
+                android:scrollbars="vertical"
+                android:layout_height="wrap_content">
 
-        </LinearLayoutManager>
-    </ScrollView>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relation_selector" />
+
+            </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="------------------"/>
+
+        </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
